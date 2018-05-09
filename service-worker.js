@@ -21,16 +21,20 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('push', function(event) {  
-  console.log('Event from push testing',event);
-  var title = 'Yay a message.';  
-  var body = 'We have received a push message.';  
-  var icon = '/images/smiley.svg';  
-  var tag = 'simple-push-example-tag';
-  event.waitUntil(  
-    self.registration.showNotification(title, {  
-      body: body,  
-      icon: icon,  
-      tag: tag  
-    })  
-  );  
+  try {
+    console.log('Event from push testing',event);
+    var title = 'Yay a message.';  
+    var body = 'We have received a push message.';  
+    var icon = '/images/smiley.svg';  
+    var tag = 'simple-push-example-tag';
+    event.waitUntil(  
+      self.registration.showNotification(title, {  
+        body: body,  
+        icon: icon,  
+        tag: tag  
+      })  
+    );  
+  } catch (er) {
+    console.log(er);
+  }
 });
