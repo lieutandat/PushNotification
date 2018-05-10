@@ -12,16 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-self.addEventListener('install', function(event) {
-  debugger
-  console.log('Service Worker installing.');
-});
-
-self.addEventListener('activate', function(event) {
-  debugger
-  console.log('Service Worker activating.');  
-});
-
 self.addEventListener('push', function(event) { 
   debugger
   try {
@@ -41,3 +31,15 @@ self.addEventListener('push', function(event) {
     console.log(er);
   }
 });
+
+self.addEventListener('install', function(event) {
+  debugger
+  console.log('Service Worker installing.');
+});
+
+self.addEventListener('activate', function(event) {
+  debugger
+  console.log('Service Worker activating.');  
+});
+
+
