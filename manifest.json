@@ -2,7 +2,7 @@
   "name": "Service Worker Debugging Demo",  
   "short_name": "SW Debug",  
   "icons": [{  
-        "src": "images/icons/smiley-192x192.png",  
+        "src": "static/images/icons/smiley-192x192.png",  
         "sizes": "192x192",
         "type": "image/png"
       }],  
