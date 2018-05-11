@@ -12,34 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-self.addEventListener('push', function(event) { 
-  debugger
-  try {
-    console.log('Event from push testing',event);
-    var title = 'Yay a message.';  
-    var body = 'We have received a push message.';  
-    var icon = '/images/smiley.svg';  
-    var tag = 'simple-push-example-tag';
-    event.waitUntil(  
-      self.registration.showNotification(title, {  
-        body: body,  
-        icon: icon,  
-        tag: tag  
-      })  
-    );  
-  } catch (er) {
-    console.log(er);
+self.addEventListener('push', function(event) {
+  if (!(self.Notification && self.Notification.permission === 'granted')) {
+    return;
   }
-});
 
-self.addEventListener('install', function(event) {
-  debugger
-  console.log('Service Worker installing.');
-});
+  var data = {};
+  if (event.data) {
+    data = event.data.json();
+  }
+  var title = data.title || "Something Has Happened";
+  var message = data.message || "Here's something you might want to check out.";
+  var icon = "images/new-notification.png";
 
-self.addEventListener('activate', function(event) {
-  debugger
-  console.log('Service Worker activating.');  
-});
+  var notification = new self.Notification(title, {
+    body: message,
+    tag: 'simple-push-demo-notification',
+    icon: icon
+  });
 
+  notification.addEventListener('click', function() {
+    if (clients.openWindow) {
+      clients.openWindow('https://example.blog.com/2015/03/04/something-new.html');
+    }
+  });
+});
 
