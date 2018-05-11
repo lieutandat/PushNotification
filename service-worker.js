@@ -1,16 +1,78 @@
-// Copyright 2016 Google Inc.
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//      http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+/**
+ * /* eslint-disable no-console
+ *
+ * @format
+ */
+
+/**
+ * WARNING: DO NOT USE ES2015+ OR COMMONJS. This file is served as-is and isn't
+ * transpiled by Babel or bundled by Webpack.
+ */
+
+/* eslint-disable */
+'use strict';
+/* eslint-enable */
+
+var queuedMessages = [];
+
+/**
+ *  We want to make sure that if the service worker gets updated that we
+ *  immediately claim it, to ensure we're not running stale versions of the worker
+ *	See: https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting
+ **/
+self.addEventListener( 'install', function( event ) {
+	event.waitUntil( self.skipWaiting() );
+} );
+
+self.addEventListener( 'activate', function( event ) {
+	event.waitUntil( self.clients.claim() );
+} );
+
+self.addEventListener( 'notificationclick', function( event ) {
+	var notification = event.notification;
+	notification.close();
+
+	event.waitUntil(
+		self.clients.matchAll().then( function( clientList ) {
+			if ( clientList.length > 0 ) {
+				clientList[ 0 ].postMessage( { action: 'openPanel' } );
+				clientList[ 0 ].postMessage( { action: 'trackClick', notification: notification.data } );
+				try {
+					clientList[ 0 ].focus();
+				} catch ( err ) {
+					// Client didn't need focus
+				}
+			} else {
+				queuedMessages.push( { action: 'openPanel' } );
+				queuedMessages.push( { action: 'trackClick', notification: notification.data } );
+				self.clients.openWindow( '/' );
+			}
+		} )
+	);
+} );
+
+self.addEventListener( 'message', function( event ) {
+	if ( ! ( 'action' in event.data ) ) {
+		return;
+	}
+
+	switch ( event.data.action ) {
+		case 'sendQueuedMessages':
+			self.clients.matchAll().then( function( clientList ) {
+				var queuedMessage;
+
+				if ( clientList.length > 0 ) {
+					queuedMessage = queuedMessages.shift();
+					while ( queuedMessage ) {
+						clientList[ 0 ].postMessage( queuedMessage );
+						queuedMessage = queuedMessages.shift();
+					}
+				}
+			} );
+			break;
+	}
+} );
+
 
 self.addEventListener('push', function(event) {
   if (!(self.Notification && self.Notification.permission === 'granted')) {
