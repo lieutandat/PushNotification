@@ -21,14 +21,17 @@ var queuedMessages = [];
  *	See: https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting
  **/
 self.addEventListener( 'install', function( event ) {
+	console.log('install');
 	event.waitUntil( self.skipWaiting() );
 } );
 
 self.addEventListener( 'activate', function( event ) {
+	console.log('activate');
 	event.waitUntil( self.clients.claim() );
 } );
 
 self.addEventListener( 'notificationclick', function( event ) {
+	console.log('notificationclick');
 	var notification = event.notification;
 	notification.close();
 
@@ -52,6 +55,7 @@ self.addEventListener( 'notificationclick', function( event ) {
 } );
 
 self.addEventListener( 'message', function( event ) {
+	console.log('message');
 	if ( ! ( 'action' in event.data ) ) {
 		return;
 	}
@@ -75,6 +79,7 @@ self.addEventListener( 'message', function( event ) {
 
 
 self.addEventListener('push', function(event) {
+	console.log('push');
   if (!(self.Notification && self.Notification.permission === 'granted')) {
     return;
   }
