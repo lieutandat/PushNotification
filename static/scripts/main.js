@@ -34,7 +34,6 @@ function subscribe() {
   pushButton.disabled = true;
 
   navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-  serviceWorkerRegistration.pushManager.
     serviceWorkerRegistration.pushManager.subscribe({ 
 	userVisibleOnly: true ,
 	applicationServerKey: urlBase64ToUint8Array(
@@ -60,12 +59,14 @@ function subscribe() {
           // subscribe to push messages  
           console.log('Permission for Notifications was denied');
           pushButton.disabled = true;
+		  document.getElementById("result").innerText = 'Permission for Notifications was denied';
         } else {
           // A problem occurred with the subscription; common reasons  
           // include network errors, and lacking gcm_sender_id and/or  
           // gcm_user_visible_only in the manifest.  
           console.log('Unable to subscribe to push.', e);
           pushButton.disabled = false;
+		   document.getElementById("result").innerText = 'Unable to subscribe to push.';
           pushButton.textContent = 'Enable Push Messages';
         }
       });
