@@ -90,9 +90,11 @@ self.addEventListener('push', function(event) {
   if (event.data) {
 	  try {
     console.log('string ',event.data.text());
+		  data.message = event.data.text();
 	  } catch(er){}
 	  try{
 	   console.log('json ',event.data.json());
+		  data = event.data.json();
 	  } catch(er){ console.log('json ', er) }
 	data = event.data;
   }
