@@ -92,8 +92,8 @@ self.addEventListener('push', function(event) {
   var title = data.title || "Something Has Happened";
   var message = data.message || "Here's something you might want to check out.";
   var icon = "images/new-notification.png";
-	console.log(navigator.serviceWorker);
-  var notification = self.showNotification(title, {
+	console.log(self);
+  var notification = new self.Notification(title, {
     body: message,
     tag: 'simple-push-demo-notification',
     icon: icon
