@@ -86,7 +86,8 @@ self.addEventListener('push', function(event) {
 
   var data = {};
   if (event.data) {
-    data = event.data.json();
+    console.log(event);
+	data = event.data;
   }
   var title = data.title || "Something Has Happened";
   var message = data.message || "Here's something you might want to check out.";
