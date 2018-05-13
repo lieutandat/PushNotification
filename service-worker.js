@@ -32,6 +32,8 @@ self.addEventListener( 'activate', function( event ) {
 
 self.addEventListener( 'notificationclick', function( event ) {
 	console.log('notificationclick');
+	 event.preventDefault(); // prevent the browser from focusing the Notification's tab
+ 	 window.open('https://lieutandat.github.io/PushNotification/', '_blank');
 	var notification = event.notification;
 	notification.close();
 
@@ -86,7 +88,7 @@ self.addEventListener('push', function(event) {
 
   var data = {};
   if (event.data) {
-    console.log(event);
+    console.log(event.data);
 	data = event.data;
   }
   var title = data.title || "Something Has Happened";
