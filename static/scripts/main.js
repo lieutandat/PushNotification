@@ -34,13 +34,18 @@ function subscribe() {
   pushButton.disabled = true;
 
   navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-    serviceWorkerRegistration.pushManager.subscribe({ userVisibleOnly: true })
+    serviceWorkerRegistration.pushManager.subscribe({ 
+	userVisibleOnly: true ,
+	applicationServerKey: urlBase64ToUint8Array(
+        'BJf95aa2aag61InR3IHInwMWhH0p2dw4NuSmgXJ7zCoMdSsAUlSyqYJX9HNbWhJDaNB3ycEhcOJlYoszw-4MhsE'
+      )
+	})
       .then(function(subscription) {
         // The subscription was successful  
         isPushEnabled = true;
         pushButton.textContent = 'Disable Push Messages';
         pushButton.disabled = false;
-
+		console.log('Subcripttion', subscription);
         // TODO: Send the subscription.endpoint to your server  
         // and save it to send a push message at a later date
         // return sendSubscriptionToServer(subscription);
@@ -51,13 +56,13 @@ function subscribe() {
           // means we failed to subscribe and the user will need  
           // to manually change the notification permission to  
           // subscribe to push messages  
-          console.warn('Permission for Notifications was denied');
+          console.log('Permission for Notifications was denied');
           pushButton.disabled = true;
         } else {
           // A problem occurred with the subscription; common reasons  
           // include network errors, and lacking gcm_sender_id and/or  
           // gcm_user_visible_only in the manifest.  
-          console.error('Unable to subscribe to push.', e);
+          console.log('Unable to subscribe to push.', e);
           pushButton.disabled = false;
           pushButton.textContent = 'Enable Push Messages';
         }
