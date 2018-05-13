@@ -24,8 +24,18 @@ if('serviceWorker' in navigator) {
 }
 
 // Setup Push notifications
+var unpushButton = document.getElementById("UnSubscribe");
+unpushButton.addEventListener('click', subscribe);
+function unsubscribe(){
+	navigator.serviceWorker.getRegistration().then((result) => {
+		result.unregister().then((success) => {
+		document.getElementById("endpoint").innerText = success;
+	});
+	});
+}
 
-var pushButton = document.querySelector('.js-push-button');
+
+var pushButton = document.getElementById("Subscribe");
 pushButton.addEventListener('click', subscribe);
 
 function subscribe() {
