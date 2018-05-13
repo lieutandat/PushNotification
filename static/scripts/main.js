@@ -14,18 +14,24 @@
 
 // Register Service Worker
 
-if('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js').then(function(registration) {
-    // Registration was successful
-  }).catch(function(err) {
-    // registration failed :(
-    console.log('ServiceWorker registration failed: ', err);
-  });
+
+
+var unpushButton = document.getElementById("Subscribe");
+unpushButton.addEventListener('click', Subscribe);
+function Subscribe(){
+		if('serviceWorker' in navigator) {
+	  navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+		// Registration was successful
+	  }).catch(function(err) {
+		// registration failed :(
+		console.log('ServiceWorker registration failed: ', err);
+	  });
+	}
 }
 
 // Setup Push notifications
 var unpushButton = document.getElementById("UnSubscribe");
-unpushButton.addEventListener('click', subscribe);
+unpushButton.addEventListener('click', unsubscribe);
 function unsubscribe(){
 	navigator.serviceWorker.getRegistration().then((result) => {
 		result.unregister().then((success) => {
@@ -35,10 +41,10 @@ function unsubscribe(){
 }
 
 
-var pushButton = document.getElementById("Subscribe");
-pushButton.addEventListener('click', subscribe);
+var pushButton = document.getElementById("NotificationsSubscribe");
+pushButton.addEventListener('click', notificationsSubscribe);
 
-function subscribe() {
+function notificationsSubscribe() {
   // Disable the button so it can't be changed while  
   // we process the permission request  
   pushButton.disabled = true;
