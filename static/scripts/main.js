@@ -34,6 +34,7 @@ function subscribe() {
   pushButton.disabled = true;
 
   navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+  serviceWorkerRegistration.pushManager.
     serviceWorkerRegistration.pushManager.subscribe({ 
 	userVisibleOnly: true ,
 	applicationServerKey: urlBase64ToUint8Array(
@@ -45,7 +46,7 @@ function subscribe() {
         isPushEnabled = true;
         pushButton.textContent = 'Disable Push Messages';
         pushButton.disabled = false;
-		console.log('Subcripttion', subscription);
+		console.log('Subcripttion', JSON.stringify(subscription));
         // TODO: Send the subscription.endpoint to your server  
         // and save it to send a push message at a later date
         // return sendSubscriptionToServer(subscription);
