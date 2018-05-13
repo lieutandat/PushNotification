@@ -36,9 +36,9 @@ function subscribe() {
   navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
     serviceWorkerRegistration.pushManager.subscribe({ 
 	userVisibleOnly: true ,
-	applicationServerKey:
+	applicationServerKey: urlBase64ToUint8Array(
         'BJf95aa2aag61InR3IHInwMWhH0p2dw4NuSmgXJ7zCoMdSsAUlSyqYJX9HNbWhJDaNB3ycEhcOJlYoszw-4MhsE'
-      
+      )
 	})
       .then(function(subscription) {
         // The subscription was successful  
@@ -68,4 +68,14 @@ function subscribe() {
         }
       });
   });
+}
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/')
+  ;
+  const rawData = window.atob(base64);
+  return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
 }
