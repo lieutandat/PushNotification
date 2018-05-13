@@ -36,9 +36,9 @@ function subscribe() {
   navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
     serviceWorkerRegistration.pushManager.subscribe({ 
 	userVisibleOnly: true ,
-	applicationServerKey: urlBase64ToUint8Array(
+	applicationServerKey:
         'BJf95aa2aag61InR3IHInwMWhH0p2dw4NuSmgXJ7zCoMdSsAUlSyqYJX9HNbWhJDaNB3ycEhcOJlYoszw-4MhsE'
-      )
+      
 	})
       .then(function(subscription) {
         // The subscription was successful  
