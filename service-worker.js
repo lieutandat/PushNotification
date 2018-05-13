@@ -98,11 +98,5 @@ self.addEventListener('push', function(event) {
     tag: 'simple-push-demo-notification',
     icon: icon
   });
-
-  notification.addEventListener('click', function() {
-    if (clients.openWindow) {
-      clients.openWindow('https://example.blog.com/2015/03/04/something-new.html');
-    }
-  });
 });
 

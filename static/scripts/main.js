@@ -47,6 +47,7 @@ function subscribe() {
         pushButton.textContent = 'Disable Push Messages';
         pushButton.disabled = false;
 		console.log('Subcripttion', JSON.stringify(subscription));
+		document.getElementById("result").innerText = JSON.stringify(subscription);
         // TODO: Send the subscription.endpoint to your server  
         // and save it to send a push message at a later date
         // return sendSubscriptionToServer(subscription);
