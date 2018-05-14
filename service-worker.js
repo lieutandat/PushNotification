@@ -96,11 +96,10 @@ self.addEventListener('push', function(event) {
 	   console.log('json ',event.data.json());
 		  data = event.data.json();
 	  } catch(er){ console.log('json ', er) }
-	data = event.data;
   }
   var title = data.title || "Something Has Happened";
   var message = data.message || "Here's something you might want to check out.";
-  var icon = "images/new-notification.png";
+  var icon = data.icon || "images/new-notification.png";
 	console.log(self);
   var notification = self.registration.showNotification(title, {
     body: message,
