@@ -1,0 +1,85 @@
+public class Palindrome {
+    public class Node {
+      public int value;
+      public Node next;
+      
+      public Node(int value) {
+        this.value = value;
+        this.next = null;
+      }
+    }
+    
+    Node head = null;
+    
+    Palindrome() {
+        int[] temp = new int[]{1,2,2,1,1};
+        Node currentNode = null;
+        for(int value: temp) {
+          if(this.head == null) {
+            this.head = new Node(value);
+            currentNode = this.head;
+          } else {
+            Node newNode = new Node(value);
+            currentNode.next = newNode;
+            currentNode = newNode;
+          }
+        }
+        currentNode.next = null;
+        this.printNode(this.head);
+        this.isPalindrome(this.head);
+    }
+    
+    void printNode(Node headNode) {
+      Node loadNode = headNode;
+      do {
+        System.out.print(loadNode.value + " ");
+        loadNode = loadNode.next;
+      } while(loadNode != null);
+    }
+    
+    boolean isPalindrome(Node headNode) {
+      Node middleNode = this.findMiddleNode(headNode);
+      middleNode = this.reveseNode(middleNode);
+      System.out.println();
+      System.out.println(this.compareNode(headNode, middleNode));
+      return true;
+    }
+    
+    Node findMiddleNode(Node headNode) {
+      double count = 0, prevCount = 1;
+      Node middleNode = headNode;
+      
+      Node loadNode = headNode;
+      do {
+        count = count + 1;
+        if(Math.floor(count / 2 + 1) > prevCount) {
+          prevCount = Math.floor(count / 2 + 1);
+          middleNode = middleNode.next;
+        }
+        loadNode = loadNode.next;
+      } while(loadNode != null);
+      return middleNode;
+    }
+    
+    Node reveseNode(Node headNode) {
+      Node tailNode = null;
+      Node currentNode = headNode;
+      do {
+        Node nextNode = currentNode.next;
+        currentNode.next = tailNode;
+        tailNode = currentNode;
+        currentNode = nextNode;
+      } while (currentNode != null);
+      return tailNode;
+    }
+    
+    boolean compareNode(Node node1, Node node2) {
+      if(node1 != null && node2 != null) {
+        if(node1.value == node2.value) {
+          return this.compareNode(node1.next, node2.next);
+        }
+        return false;
+      }
+      return true;
+    }
+}
