@@ -1,3 +1,5 @@
+
+
 public class Palindrome {
     public class Node {
       public int value;
@@ -12,7 +14,7 @@ public class Palindrome {
     Node head = null;
     
     Palindrome() {
-        int[] temp = new int[]{1,2,2,1,1};
+        int[] temp = new int[]{1,2,2,2,1};
         Node currentNode = null;
         for(int value: temp) {
           if(this.head == null) {
@@ -39,9 +41,12 @@ public class Palindrome {
     
     boolean isPalindrome(Node headNode) {
       Node middleNode = this.findMiddleNode(headNode);
-      middleNode = this.reveseNode(middleNode);
-      System.out.println();
-      System.out.println(this.compareNode(headNode, middleNode));
+      
+      Node reverse = this.reveseNode(middleNode.next);
+      System.out.println(this.compareNode(headNode, reverse));
+      reverse = this.reveseNode(reverse);
+
+      middleNode.next = reverse;
       return true;
     }
     
@@ -52,8 +57,8 @@ public class Palindrome {
       Node loadNode = headNode;
       do {
         count = count + 1;
-        if(Math.floor(count / 2 + 1) > prevCount) {
-          prevCount = Math.floor(count / 2 + 1);
+        if(Math.ceil(count / 2) > prevCount) {
+          prevCount = Math.ceil(count / 2);
           middleNode = middleNode.next;
         }
         loadNode = loadNode.next;
